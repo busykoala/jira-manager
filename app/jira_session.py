@@ -1,17 +1,33 @@
 from urllib.parse import urljoin
+from pathlib import Path
+import pickle
 
 from requests import Session
 
 from app.config import get_config
 
+COOKIES = Path('./cookies')
+
 
 class JiraSession(Session):
-    def __init__(self, jira_cookie):
+    def __init__(self, jira_cookie=None):
         super().__init__()
-        self.jira_cookie = jira_cookie
+        if jira_cookie:
+            self.jira_cookie = jira_cookie
+            self.write_cookies()
+        else:
+            self.read_cookies()
         self.url = get_config().JIRA_URL
         self.username = get_config().USERNAME
         self.user_issues = []
+
+    def write_cookies(self):
+        with COOKIES.open(mode='wb+') as f_:
+            pickle.dump(self.jira_cookie, f_)
+
+    def read_cookies(self):
+        with COOKIES.open(mode='rb') as f_:
+            self.jira_cookie = pickle.load(f_)
 
     def get_user_issues(self):
         query = f'rest/api/2/search?jql=assignee={self.username}'
