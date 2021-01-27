@@ -30,7 +30,7 @@ class JiraSession(Session):
             self.jira_cookie = pickle.load(f_)
 
     def get_user_issues(self):
-        query = f'rest/api/2/search?jql=assignee={self.username}'
+        query = f'rest/api/2/search?jql=assignee={self.username}%20AND%20status!=Done'
         url = urljoin(self.url, query)
         response = self.get(url, cookies=self.jira_cookie)
         if response.status_code == 200:
