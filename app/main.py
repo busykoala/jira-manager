@@ -24,7 +24,7 @@ def load_jira_info():
 @app.route('/')
 def overview():
     todos = ''
-    if TODOS.is_file:
+    if TODOS.exists():
         with TODOS.open(mode='rb') as f_:
             todos = f_.read().decode('utf-8')
     user_issues = load_jira_info()
