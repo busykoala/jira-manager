@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>Overview</title>
-
     <!-- Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
@@ -14,12 +13,44 @@
       integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
       crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   </head>
 <body>
 
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img
+          src="{{ url_for('static', filename='assets/koala-icon.png') }}"
+          alt="" width="30" height="30" class="d-inline-block align-top">
+        Busykoala Workspace
+      </a>
+      <button
+        class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarNav" aria-controls="navbarNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item d-flex">
+            <a class="nav-link" href="login">Jira Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
-    <h1>Task Overview</h1>
-    <p>If your session is expired please <a href="login">Login</a> again.</p><br>
+    <br>
+    <form action="save-todos" method="POST">
+      <div class="todos-header">TODOS</div>
+      <textarea class="form-control" name="todos" id="stickie-todo" rows="13">{{ todos }}</textarea>
+      <div class="d-flex justify-content-end">
+        <input type="submit" value="Save Todos" class="btn btn-light">
+      </div>
+    </form><br>
+
     <div class="row">
       <div class="col-2"><strong>Key</strong></div>
       <div class="col-2"><strong>Status</strong></div>
@@ -29,13 +60,19 @@
     </div>
     {% for issue in issues %}
     <div class="row">
-      <div class="col-2"><a href="{{ issue.get('url') }}" target="_blank">{{ issue.get('key') }}</a></div>
+      <div class="col-2">
+        <a
+          class="btn btn-light issue-key-btn"
+          href="{{ issue.get('url') }}"
+          target="_blank">{{ issue.get('key') }}</a>
+      </div>
       <div class="col-2">{{ issue.get('status') }}</div>
       <div class="col-5">{{ issue.get('summary') }}</div>
       <div class="col-2">{{ issue.get('duedate') }}</div>
       <div class="col-1">
         <a
           href="#"
+          class="btn btn-info issue-key-btn"
           data-bs-toggle="collapse"
           data-bs-target="#collapse-{{ issue.get('key') }}"
           aria-expanded="false"
@@ -43,11 +80,12 @@
       </div>
     </div>
     <div class="row" style="border-bottom: solid 1px black;">
-      <div class="collapse" id="collapse-{{ issue.get('key') }}">
+      <div class="collapse issue-details" id="collapse-{{ issue.get('key') }}">
         {{ issue.get('description') }}
       </div>
     </div>
     {% endfor %}
+    <br><br><br>
 
   </div>
 

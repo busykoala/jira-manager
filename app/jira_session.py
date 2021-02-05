@@ -33,7 +33,7 @@ class JiraSession(Session):
         query = f'rest/api/2/search?jql=assignee={self.username}%20AND%20status!=Done'
         url = urljoin(self.url, query)
         response = self.get(url, cookies=self.jira_cookie)
-        if response.status_code == 200:
+        if response.status_code == 200 and "json" in response.headers.get('Content-Type'):
             self.user_issues = response.json().get('issues', [])
 
     def extract_info(self):

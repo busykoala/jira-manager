@@ -1,0 +1,32 @@
+#stickie-todo {
+  background-color: rgba(251, 227, 100, .5);
+  border: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+#stickie-todo:focus {
+  box-shadow: none;
+}
+
+.todos-header {
+  background-color: rgba(251, 227, 100, .7);
+  padding: 7px 12px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.6);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.issue-details {
+  margin-top: 5px;
+  padding: 12px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.issue-key-btn {
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}

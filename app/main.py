@@ -1,13 +1,16 @@
 from flask import Flask
 from flask import render_template
 from flask import redirect
+from flask import request
 from flask import url_for
+from pathlib import Path
 
 from app.jira_session import JiraSession
 from app.jira_login import JiraLogin
 from app.config import get_config
 
 ISSUE_BASE_URL = '{}/browse/'.format(get_config().JIRA_URL.rstrip('/'))
+TODOS = Path('./todos')
 app = Flask(__name__)
 jira_login = JiraLogin()
 
@@ -20,6 +23,10 @@ def load_jira_info():
 
 @app.route('/')
 def overview():
+    todos = ''
+    if TODOS.is_file:
+        with TODOS.open(mode='rb') as f_:
+            todos = f_.read().decode('utf-8')
     user_issues = load_jira_info()
     issues = [
         {
@@ -32,7 +39,16 @@ def overview():
         }
         for issue in user_issues
         if issue.get('fields', {}).get('status', {}).get('name') != 'Done']
-    return render_template('overview.html', issues=issues)
+    return render_template('overview.html', issues=issues, todos=todos)
+
+
+@app.route('/save-todos', methods=["POST"])
+def save_todos():
+    req = request.form
+    todos = req.get('todos', '')
+    with TODOS.open(mode='wb+') as f_:
+        f_.write(todos.encode('utf-8'))
+    return redirect(url_for('overview'))
 
 
 @app.route('/await-login')

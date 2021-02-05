@@ -1,32 +1,13 @@
 # Jira Manager
 
-:construction: WORK GOING ON HERE :construction:
+The current app lists your issues which are not yet done. It should be a
+clutter free overview of things to do with only the most important features.
 
-The basic idea is to create an easier overview of your tasks if you work in a
-big company in different projects as a developer.
+![Sceenshot](./assets/screenshot.png)
 
-To allow super enterprisy setups with two factor auth or similar the login is
-still done manual in a Selenium browser to retrieve the cookies for the
-api requests.
+## Getting Started
 
-## Next steps
-
-### List, Filter & Sort
-
-- Filter by Project (Tag?)
-- Filter by My Issues
-- Filter by State
-
-### Actions
-
-- Change Issue State
-
-### Improvements
-
-- Store cookies until invalid
-- Think of a better idea than Selenium for the login
-
-## Install & Run
+### App setup
 
 ```
 # copy .env.example to .env and add your details
@@ -37,3 +18,16 @@ poetry install
 # run app
 poetry run python app/main.py
 ```
+
+### How to use
+
+To allow super enterprisy setups with two factor auth the login is done
+manually in a Selenium test browser to retrieve the cookies for the api requests.
+
+## Future Plans
+
+For the future I'd like to add the most important actions for the issues like
+putting them to `implementation` and `done`.
+
+Other than that I might add some more filtering queries to choose from instead
+of only having the `not done` ones.
